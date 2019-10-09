@@ -23,9 +23,7 @@
 
 ### Setup
 
-**[Download](/uploads/27c6f5312e8b10a39a230b5539d7f45f/SCrypt.jar)**
-
-Or build it yourself with Java 8
+Download the latest jar from Releases.
 
 ----
 
