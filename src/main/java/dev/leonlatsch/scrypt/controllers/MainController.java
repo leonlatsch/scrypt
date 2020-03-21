@@ -1,4 +1,4 @@
-package dev.leonlatsch.scrypt.ui.gui;
+package dev.leonlatsch.scrypt.controllers;
 
 import java.awt.Desktop;
 import java.io.File;
@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.text.DecimalFormat;
 
 import dev.leonlatsch.scrypt.App;
-import dev.leonlatsch.scrypt.crypt.Crypter;
+import dev.leonlatsch.scrypt.data.Crypter;
 import dev.leonlatsch.scrypt.data.Mode;
 import dev.leonlatsch.scrypt.data.StreamObject;
 import dev.leonlatsch.scrypt.util.OptionPane;
@@ -75,7 +75,7 @@ public class MainController {
     @FXML
     public void initialize() {
     	// Load search.png to button
-        Image img = new Image(MainController.class.getClassLoader().getResourceAsStream("search.png"));
+        Image img = new Image(MainController.class.getClassLoader().getResourceAsStream("img/search.png"));
         btnLookUp.setGraphic(new ImageView(img));
         
         // Add listeners

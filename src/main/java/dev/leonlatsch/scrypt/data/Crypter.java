@@ -1,4 +1,4 @@
-package dev.leonlatsch.scrypt.crypt;
+package dev.leonlatsch.scrypt.data;
 
 import java.io.File;
 import java.io.FileInputStream;

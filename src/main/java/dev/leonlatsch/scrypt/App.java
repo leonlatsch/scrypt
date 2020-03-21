@@ -4,8 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 
-import dev.leonlatsch.scrypt.ui.cmd.Terminal;
-import dev.leonlatsch.scrypt.ui.gui.MainController;
+import dev.leonlatsch.scrypt.controllers.MainController;
 import dev.leonlatsch.scrypt.util.OptionPane;
 import dev.leonlatsch.scrypt.util.TmpCreator;
 import javafx.application.Application;
@@ -27,11 +26,9 @@ public class App extends Application {
         } catch (IOException e) {
             OptionPane.showAlertDialog(null, "ERROR", "Error creating credits file", AlertType.ERROR);
         }
-        if (Terminal.validTerminalArgs(args)) {
-            new Terminal(args).run();
-        } else {
-            launch(args);
-        }
+
+        launch(args);
+
         CREDITS.delete();
     }
 
@@ -44,7 +41,7 @@ public class App extends Application {
         Scene scene = new Scene(root, 430, 300);
         primaryStage.setScene(scene);
         primaryStage.setTitle("SCrypt");
-        primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("/logo_256.png")));
+        primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("/img/logo_256.png")));
         primaryStage.setResizable(false);
         primaryStage.show();
     }
