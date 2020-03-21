@@ -471,8 +471,8 @@ public class MainController {
     public void showInfo() {
         new Thread(() -> {
             try {
-                Desktop.getDesktop().browse(getClass().getResource("/info.html").toURI());
-            } catch (IOException | URISyntaxException e) {
+                Desktop.getDesktop().browse(App.CREDITS.toURI());
+            } catch (IOException e) {
                 e.printStackTrace();
             }
         }).start();
