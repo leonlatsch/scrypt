@@ -3,9 +3,9 @@
 ![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/leonlatsch/scrypt?include_prereleases&label=version)
 ![GitHub](https://img.shields.io/github/license/leonlatsch/scrypt)
 ![GitHub All Releases](https://img.shields.io/github/downloads/leonlatsch/scrypt/total)
-![Maintenance](https://img.shields.io/maintenance/no/2019)
+![Maintenance](https://img.shields.io/maintenance/yes/2020)
 
-> Note: This was my first "real" project and i created it quite a while ago.
+> Note: This was my first "big" project and i created it quite a while ago.
 
 ![scrypt](https://i.imgur.com/aMoB6z6.png)
 
