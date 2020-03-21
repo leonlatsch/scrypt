@@ -32,8 +32,8 @@ Download the latest jar from Releases.
 
 #### Requirements
 
-- Java
-- JavaFX
+- *Java 11
+- JavaFX (not required since version 2.0)
 
 ----
 
