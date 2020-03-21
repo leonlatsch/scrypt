@@ -19,7 +19,7 @@ public class App extends Application {
 
     public static File CREDITS;
 
-    public static void main(String[] args) throws Exception {
+    public static void run(String[] args) {
         try {
             CREDITS = Files.createTempFile("credits_", ".html").toFile();
             TmpCreator.create(CREDITS);
