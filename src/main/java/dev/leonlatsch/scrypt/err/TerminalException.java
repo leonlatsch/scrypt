@@ -1,4 +1,4 @@
-package de.leonl.scrypt.err;
+package dev.leonlatsch.scrypt.err;
 
 public class TerminalException extends Exception {
 

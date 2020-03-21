@@ -1,11 +1,11 @@
-package de.leonl.scrypt.ui.cmd;
+package dev.leonlatsch.scrypt.ui.cmd;
 
 import java.io.File;
 
-import de.leonl.scrypt.crypt.Crypter;
-import de.leonl.scrypt.data.Mode;
-import de.leonl.scrypt.data.StreamObject;
-import de.leonl.scrypt.err.TerminalException;
+import dev.leonlatsch.scrypt.crypt.Crypter;
+import dev.leonlatsch.scrypt.data.Mode;
+import dev.leonlatsch.scrypt.data.StreamObject;
+import dev.leonlatsch.scrypt.err.TerminalException;
 
 public class Terminal {
 

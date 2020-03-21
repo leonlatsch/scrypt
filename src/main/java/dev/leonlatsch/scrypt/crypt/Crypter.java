@@ -1,4 +1,4 @@
-package de.leonl.scrypt.crypt;
+package dev.leonlatsch.scrypt.crypt;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -10,7 +10,7 @@ import javax.crypto.CipherInputStream;
 import javax.crypto.CipherOutputStream;
 import javax.crypto.spec.SecretKeySpec;
 
-import de.leonl.scrypt.data.StreamObject;
+import dev.leonlatsch.scrypt.data.StreamObject;
 
 public class Crypter {
 
