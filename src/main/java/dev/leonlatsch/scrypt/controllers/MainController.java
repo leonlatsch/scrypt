@@ -3,12 +3,14 @@ package dev.leonlatsch.scrypt.controllers;
 import java.awt.Desktop;
 import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.text.DecimalFormat;
 
 import dev.leonlatsch.scrypt.App;
 import dev.leonlatsch.scrypt.data.Crypter;
 import dev.leonlatsch.scrypt.data.Mode;
 import dev.leonlatsch.scrypt.data.StreamObject;
+import dev.leonlatsch.scrypt.util.MavenUtils;
 import dev.leonlatsch.scrypt.util.OptionPane;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
@@ -64,7 +66,7 @@ public class MainController {
     private PasswordField pfPassword;
 
     @FXML
-    private Label lblOut, lblStatus, lblSize, lblSizeHeader;
+    private Label lblOut, lblStatus, lblSize, lblSizeHeader, lblVersion;
 
     @FXML
     private ProgressBar progress;
@@ -93,6 +95,7 @@ public class MainController {
         cbMode.setValue(LBL_ENCRYPT);
         mode = Mode.ENCRYPT;
         btnRun.setDisable(true);
+        lblVersion.setText(MavenUtils.getVersion());
 
         crypter = new Crypter();
     }
@@ -465,11 +468,11 @@ public class MainController {
     /**
      * Shows the credit html file in the browser.
      */
-    public void showCredits() {
+    public void showInfo() {
         new Thread(() -> {
             try {
-                Desktop.getDesktop().browse(App.CREDITS.toURI());
-            } catch (IOException e) {
+                Desktop.getDesktop().browse(getClass().getResource("/info.html").toURI());
+            } catch (IOException | URISyntaxException e) {
                 e.printStackTrace();
             }
         }).start();

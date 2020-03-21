@@ -9,7 +9,7 @@ import java.io.OutputStream;
 public class TmpCreator {
 
 	public static void create(File tmpFile) throws IOException {
-		InputStream in = TmpCreator.class.getResourceAsStream("/credits.html");
+		InputStream in = TmpCreator.class.getResourceAsStream("/info.html");
 		FileOutputStream out = new FileOutputStream(tmpFile);
 		
 		copy(in, out);
