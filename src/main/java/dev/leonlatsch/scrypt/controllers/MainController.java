@@ -28,8 +28,7 @@ import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
+import javafx.scene.input.*;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -282,7 +281,7 @@ public class MainController {
      * 
      * Listens on tfIn's text property. Controls the lblOut and manages the .crypt additions
      */
-    private ChangeListener<String> fileListener = new ChangeListener<String>() {
+    private ChangeListener<String> fileListener = new ChangeListener<>() {
 
         @Override
         public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
@@ -317,7 +316,7 @@ public class MainController {
     /**
      * ModeListener<br/>
      * 
-     * Listens on the choisebox and flips the mode from encryptinn to decryption or the other way.<br/>
+     * Listens on the choicebox and flips the mode from encryption to decryption or the other way.<br/>
      * Triggers the {@link #fileListener}
      */
     private ChangeListener<String> modeListener = new ChangeListener<String>() {
@@ -348,9 +347,9 @@ public class MainController {
     /**
      * ReadyListener<br/>
      * 
-     * Listens on ifIn, the password filed and the choisebox.<br/>
+     * Listens on ifIn, the password filed and the choicebox.<br/>
      * Checks if every condition is met.<br/>
-     * Conditions: The orig file exists and is no directory, the password is at leats 4 characters long.<br/>
+     * Conditions: The orig file exists and is no directory, the password is at least 4 characters long.<br/>
      * Controls the {@link #btnRun}
      */
     private ChangeListener<String> readyListener = new ChangeListener<String>() {
@@ -435,6 +434,31 @@ public class MainController {
     	if (event.getCode() == KeyCode.ENTER && !btnRun.isDisabled()) {
     		btnRun();
     	}
+    }
+
+    /**
+     * Accepts a drag and drop file
+     *
+     * @param event
+     */
+    public void onFileDragged(DragEvent event) {
+        Dragboard dragboard = event.getDragboard();
+        boolean success = false;
+        if (dragboard.hasFiles()) {
+            File firstFile = dragboard.getFiles().get(0);
+            if (firstFile.exists()) {
+                tfIn.setText(firstFile.getAbsolutePath());
+                mapInputsToFiles();
+                success = true;
+            }
+        }
+
+        event.setDropCompleted(success);
+        event.consume();
+    }
+
+    public void onDragOver(DragEvent dragEvent) {
+        dragEvent.acceptTransferModes(TransferMode.ANY);
     }
 
     /**

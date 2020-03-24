@@ -5,7 +5,10 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import java.lang.String?>
-<BorderPane xmlns:fx="http://javafx.com/fxml/1" fx:controller="dev.leonlatsch.scrypt.controllers.MainController">
+<BorderPane xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="dev.leonlatsch.scrypt.controllers.MainController"
+            onDragDropped="#onFileDragged"
+            onDragOver="#onDragOver">
 
     <top>
         <HBox alignment="CENTER">
@@ -21,27 +24,60 @@
                         <Insets top="5" right="15" bottom="5" left="15"/>
                     </padding>
 
-                    <Label text="Input:" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
-                    <TextField fx:id="tfIn" promptText="Input file" prefWidth="250" GridPane.columnIndex="1"
+                    <Label text="Input:"
+                           GridPane.columnIndex="0"
+                           GridPane.rowIndex="0"/>
+                    <TextField fx:id="tfIn"
+                               promptText="Input file"
+                               prefWidth="250"
+                               GridPane.columnIndex="1"
                                GridPane.rowIndex="0"/>
-                    <Button fx:id="btnLookUp" GridPane.columnIndex="2" GridPane.rowIndex="0" onAction="#btnLookUp"/>
+                    <Button fx:id="btnLookUp"
+                            GridPane.columnIndex="2"
+                            GridPane.rowIndex="0"
+                            onAction="#btnLookUp"/>
 
                     <Label text="Output:" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
                     <Label fx:id="lblOut" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.columnSpan="4"/>
 
-                    <Label text="Size:" GridPane.columnIndex="0" GridPane.rowIndex="2" visible="false" managed="false"
+                    <Label text="Size:"
+                           GridPane.columnIndex="0"
+                           GridPane.rowIndex="2"
+                           visible="false"
+                           managed="false"
                            fx:id="lblSizeHeader"/>
-                    <Label text="" GridPane.columnIndex="1" GridPane.rowIndex="2" visible="false" managed="false"
+                    <Label GridPane.columnIndex="1"
+                           GridPane.rowIndex="2"
+                           visible="false"
+                           managed="false"
                            fx:id="lblSize"/>
 
-                    <Label text="Password:" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
-                    <PasswordField fx:id="pfPassword" promptText="Password" GridPane.columnIndex="1"
-                                   GridPane.rowIndex="3" onKeyPressed="#btnReturn"/>
-                    <TextField fx:id="tfPassword" promptText="Password" GridPane.columnIndex="1" GridPane.rowIndex="3"
-                               visible="false" onKeyPressed="#btnReturn"/>
-                    <CheckBox fx:id="showPw" text="Show password" GridPane.columnIndex="1" GridPane.rowIndex="4"/>
-                    <Label text="Mode:" GridPane.columnIndex="0" GridPane.rowIndex="5"/>
-                    <ChoiceBox fx:id="cbMode" value="Encrypt" GridPane.columnIndex="1" GridPane.rowIndex="5">
+                    <Label text="Password:"
+                           GridPane.columnIndex="0"
+                           GridPane.rowIndex="3"/>
+                    <PasswordField fx:id="pfPassword"
+                                   promptText="Password"
+                                   GridPane.columnIndex="1"
+                                   GridPane.rowIndex="3"
+                                   onKeyPressed="#btnReturn"/>
+                    <TextField fx:id="tfPassword"
+                               promptText="Password"
+                               GridPane.columnIndex="1"
+                               GridPane.rowIndex="3"
+                               visible="false"
+                               onKeyPressed="#btnReturn"/>
+                    <CheckBox fx:id="showPw"
+                              text="Show password"
+                              GridPane.columnIndex="1"
+                              GridPane.rowIndex="4"/>
+
+                    <Label text="Mode:"
+                           GridPane.columnIndex="0"
+                           GridPane.rowIndex="5"/>
+                    <ChoiceBox fx:id="cbMode"
+                               value="Encrypt"
+                               GridPane.columnIndex="1"
+                               GridPane.rowIndex="5">
                         <items>
                             <FXCollections fx:factory="observableArrayList">
                                 <String fx:value="Encrypt"/>
@@ -51,6 +87,7 @@
                     </ChoiceBox>
                 </GridPane>
             </HBox>
+
             <HBox alignment="CENTER">
                 <VBox>
                     <ProgressBar fx:id="progress" visible="false" prefWidth="350" scaleY="0.5"/>
@@ -66,11 +103,11 @@
     </center>
 
     <bottom>
-        <AnchorPane >
-			<HBox AnchorPane.leftAnchor="5" AnchorPane.bottomAnchor="0" spacing="5">
-				<Label text="Version:"/>
-				<Label fx:id="lblVersion" />
-			</HBox>
+        <AnchorPane>
+            <HBox AnchorPane.leftAnchor="5" AnchorPane.bottomAnchor="0" spacing="5">
+                <Label text="Version:"/>
+                <Label fx:id="lblVersion"/>
+            </HBox>
             <Hyperlink alignment="BOTTOM_RIGHT" text="Info" onAction="#showInfo" AnchorPane.rightAnchor="0"/>
         </AnchorPane>
     </bottom>
