@@ -12,6 +12,10 @@ import javax.crypto.spec.SecretKeySpec;
 
 import dev.leonlatsch.scrypt.data.StreamObject;
 
+/**
+ * @author Leon Latsch
+ * @since 1.0
+ */
 public class Crypter {
 
     private static final String AES = "AES";

@@ -4,6 +4,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+/**
+ * @author Leon Latsch
+ * @since 1.0
+ */
 public class StreamObject {
 
 	private final InputStream in;

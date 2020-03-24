@@ -6,7 +6,7 @@ import java.nio.file.Files;
 
 import dev.leonlatsch.scrypt.controllers.MainController;
 import dev.leonlatsch.scrypt.util.OptionPane;
-import dev.leonlatsch.scrypt.util.TmpCreator;
+import dev.leonlatsch.scrypt.util.InfoCreator;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -21,10 +21,10 @@ public class App extends Application {
 
     public static void run(String[] args) {
         try {
-            CREDITS = Files.createTempFile("credits_", ".html").toFile();
-            TmpCreator.create(CREDITS);
+            CREDITS = Files.createTempFile("scrypt_info_", ".html").toFile();
+            InfoCreator.create(CREDITS);
         } catch (IOException e) {
-            OptionPane.showAlertDialog(null, "ERROR", "Error creating credits file", AlertType.ERROR);
+            OptionPane.showAlertDialog(null, "ERROR", "Error creating info file. Please restart the Application", AlertType.ERROR);
         }
 
         launch(args);

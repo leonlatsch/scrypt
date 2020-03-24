@@ -1,11 +1,5 @@
 package dev.leonlatsch.scrypt.controllers;
 
-import java.awt.Desktop;
-import java.io.File;
-import java.io.IOException;
-import java.net.URISyntaxException;
-import java.text.DecimalFormat;
-
 import dev.leonlatsch.scrypt.App;
 import dev.leonlatsch.scrypt.data.Crypter;
 import dev.leonlatsch.scrypt.data.Mode;
@@ -20,12 +14,9 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
@@ -33,6 +24,15 @@ import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
+import java.awt.*;
+import java.io.File;
+import java.io.IOException;
+import java.text.DecimalFormat;
+
+/**
+ * @author Leon Latsch
+ * @since 1.0
+ */
 public class MainController {
 
     private static final String LBL_ENCRYPT = "Encrypt";

@@ -8,6 +8,10 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 
+/**
+ * @author Leon Latsch
+ * @since 2.1
+ */
 public class MavenUtils {
 
     public static String getVersion() {

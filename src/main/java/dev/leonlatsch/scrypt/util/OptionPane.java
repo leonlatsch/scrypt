@@ -8,6 +8,10 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextInputDialog;
 import javafx.stage.Stage;
 
+/**
+ * @author Leon Latsch
+ * @since 1.0
+ */
 public class OptionPane {
 
     /**
