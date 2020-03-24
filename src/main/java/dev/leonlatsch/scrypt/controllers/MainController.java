@@ -10,7 +10,6 @@ import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.concurrent.Task;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
@@ -100,7 +99,7 @@ public class MainController {
     }
 
     /**
-     * Map the inputfields to the {@link File} objects
+     * Map the input fields to the {@link File} objects
      */
     private void mapInputsToFiles() {
         inFile = new File(tfIn.getText());
@@ -110,7 +109,7 @@ public class MainController {
     /**
      * Show "Success" or "Failed"
      *
-     * @param success
+     * @param success true/false
      */
     private void showStatus(boolean success) {
         Platform.runLater(() -> {
@@ -157,7 +156,7 @@ public class MainController {
     /**
      * Dis or enables all gui emelents. Used while encryption
      *
-     * @param bool
+     * @param bool true/faöse
      */
     private void running(boolean bool) {
         btnRun.setDisable(bool);
@@ -187,14 +186,14 @@ public class MainController {
      * @return success
      */
     private Task<Boolean> encryptTask() {
-        Task<Boolean> task = new Task<Boolean>() {
+        return new Task<>() {
 
             @Override
             protected Boolean call() throws Exception {
-                Boolean success = false;
+                boolean success;
 
                 // Generate key and get StreamObject with in and out
-                StreamObject streams = crypter.encrypt(inFile, outFile, crypter.genkey(pfPassword.getText()));
+                StreamObject streams = crypter.encrypt(inFile, outFile, crypter.keyGen(pfPassword.getText()));
                 try {
 
                     // Get the amount of loop round
@@ -230,7 +229,6 @@ public class MainController {
                 return success;
             }
         };
-        return task;
     }
 
     /**
@@ -239,14 +237,14 @@ public class MainController {
      * @return success
      */
     private Task<Boolean> decryptTask() {
-        Task<Boolean> task = new Task<Boolean>() {
+        return new Task<>() {
 
             @Override
             protected Boolean call() throws Exception {
-                Boolean success = false;
+                boolean success;
 
                 // Generate key and get StreamObject with in and out
-                StreamObject streams = crypter.decrypt(inFile, outFile, crypter.genkey(pfPassword.getText()));
+                StreamObject streams = crypter.decrypt(inFile, outFile, crypter.keyGen(pfPassword.getText()));
                 try {
 
                     // Get the amount of loop round
@@ -283,7 +281,6 @@ public class MainController {
                 return success;
             }
         };
-        return task;
     }
 
     /**
@@ -329,7 +326,7 @@ public class MainController {
      * Listens on the choicebox and flips the mode from encryption to decryption or the other way.<br/>
      * Triggers the {@link #fileListener}
      */
-    private ChangeListener<String> modeListener = new ChangeListener<String>() {
+    private ChangeListener<String> modeListener = new ChangeListener<>() {
 
         @Override
         public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
@@ -357,12 +354,12 @@ public class MainController {
     /**
      * ReadyListener<br/>
      * <p>
-     * Listens on ifIn, the password filed and the choicebox.<br/>
+     * Listens on ifIn, the password filed and the choice box.<br/>
      * Checks if every condition is met.<br/>
      * Conditions: The orig file exists and is no directory, the password is at least 4 characters long.<br/>
      * Controls the {@link #btnRun}
      */
-    private ChangeListener<String> readyListener = new ChangeListener<String>() {
+    private ChangeListener<String> readyListener = new ChangeListener<>() {
 
         @Override
         public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
@@ -392,9 +389,9 @@ public class MainController {
     /**
      * PasswordListener<br/>
      * <p>
-     * Listens on the checkbox and switches between password and textfield
+     * Listens on the checkbox and switches between password and text field
      */
-    private ChangeListener<Boolean> passwordListener = new ChangeListener<Boolean>() {
+    private ChangeListener<Boolean> passwordListener = new ChangeListener<>() {
 
         @Override
         public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
@@ -414,9 +411,8 @@ public class MainController {
      * Creates a FileDialog to select a file.<br/>
      * Error handling is provided
      *
-     * @param event
      */
-    public void btnLookUp(ActionEvent event) {
+    public void btnLookUp() {
         FileChooser chooser = new FileChooser();
         File file = chooser.showOpenDialog(stage);
         if (file != null) {
@@ -438,7 +434,7 @@ public class MainController {
     /**
      * Runs {@link #btnRun()} if enter is pressed in the password filed
      *
-     * @param event
+     * @param event KeyEvent
      */
     public void btnReturn(KeyEvent event) {
         if (event.getCode() == KeyCode.ENTER && !btnRun.isDisabled()) {
@@ -449,7 +445,7 @@ public class MainController {
     /**
      * Accepts a drag and drop file
      *
-     * @param event
+     * @param event DragEvent
      */
     public void onFileDragged(DragEvent event) {
         Dragboard dragboard = event.getDragboard();
@@ -516,7 +512,7 @@ public class MainController {
     /**
      * Shows the size labels.
      *
-     * @param bool
+     * @param bool tru/false
      */
     private void showSize(boolean bool) {
         lblSizeHeader.setManaged(bool);
@@ -533,7 +529,7 @@ public class MainController {
     /**
      * Calculates the displayed file size formats it.
      *
-     * @return
+     * @return The files size as format String
      */
     private String getFileSize() {
         DecimalFormat df = new DecimalFormat("0.00");

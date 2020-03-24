@@ -23,11 +23,11 @@ public class Crypter {
     /**
      * Generate the {@link SecretKeySpec} with the hash of the provided String
      * 
-     * @param str
+     * @param str the source string
      * @return {@link SecretKeySpec}
-     * @throws Exception
+     * @throws Exception if any error happens. Should not.
      */
-    public SecretKeySpec genkey(String str) throws Exception {
+    public SecretKeySpec keyGen(String str) throws Exception {
         byte[] key = str.getBytes();
         MessageDigest md = MessageDigest.getInstance("SHA-256");
         key = md.digest(key);

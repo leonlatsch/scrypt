@@ -52,11 +52,7 @@ public class OptionPane {
 
         Optional<String> result = dialog.showAndWait();
 
-        if (result.isPresent()) {
-            return result.get();
-        } else {
-            return null;
-        }
+        return result.orElse(null);
     }
 
     /**
@@ -66,7 +62,7 @@ public class OptionPane {
      * @param message The message displayed in the Dialog; default is: "Are you sure?"
      * @return true if yes and false if no
      * 
-     * @see OptionPane#showAlertDialog(String, String)
+     * @see OptionPane#showAlertDialog(Stage, String, String, AlertType)
      */
     public static boolean showConfirmDialog(Stage parent, String title, String message) {
         if (title == null) {
@@ -83,6 +79,6 @@ public class OptionPane {
         alert.initOwner(parent);
 
         Optional<ButtonType> result = alert.showAndWait();
-        return result.get() == ButtonType.OK;
+        return result.isPresent() && result.get() == ButtonType.OK;
     }
 }
