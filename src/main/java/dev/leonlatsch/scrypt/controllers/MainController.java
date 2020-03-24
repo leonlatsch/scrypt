@@ -75,10 +75,10 @@ public class MainController {
 
     @FXML
     public void initialize() {
-    	// Load search.png to button
+        // Load search.png to button
         Image img = new Image(getClass().getResourceAsStream("/img/search.png"));
         btnLookUp.setGraphic(new ImageView(img));
-        
+
         // Add listeners
         tfIn.textProperty().addListener(fileListener);
         tfIn.textProperty().addListener(readyListener);
@@ -109,6 +109,7 @@ public class MainController {
 
     /**
      * Show "Success" or "Failed"
+     *
      * @param success
      */
     private void showStatus(boolean success) {
@@ -133,7 +134,7 @@ public class MainController {
             lblStatus.setManaged(true);
             lblStatus.setVisible(true);
             lblStatus.setTextFill(Color.BLACK);
-            
+
             switch (mode) {
                 case ENCRYPT:
                     lblStatus.setText("Encrypting...");
@@ -155,6 +156,7 @@ public class MainController {
 
     /**
      * Dis or enables all gui emelents. Used while encryption
+     *
      * @param bool
      */
     private void running(boolean bool) {
@@ -169,11 +171,19 @@ public class MainController {
         showPw.setDisable(bool);
     }
 
+    private void requestFocusOnPasswordFiles() {
+        if (pfPassword.isVisible()) {
+            pfPassword.requestFocus();
+        } else if (tfPassword.isVisible()) {
+            tfPassword.requestFocus();
+        }
+    }
+
     /**
      * Generates the encrypting {@link Task} object.<br/>
      * Creates streams and copys them. Relais on correct in and out {@link File}s.<br/>
      * Use the progress property to get the progress of the encryption<br/>
-     * 
+     *
      * @return success
      */
     private Task<Boolean> encryptTask() {
@@ -182,12 +192,12 @@ public class MainController {
             @Override
             protected Boolean call() throws Exception {
                 Boolean success = false;
-                
+
                 // Generate key and get StreamObject with in and out
                 StreamObject streams = crypter.encrypt(inFile, outFile, crypter.genkey(pfPassword.getText()));
                 try {
-                	
-                	// Get the amount of loop round 
+
+                    // Get the amount of loop round
                     long rounds = streams.getSize() / 1024;
                     if (rounds < 1) {
                         rounds = 1L;
@@ -198,7 +208,7 @@ public class MainController {
                     // Copy the streams. Updates the progress property while copying
                     int i;
                     byte[] b = new byte[1024];
-                    
+
                     while ((i = streams.getIn().read(b)) != -1) {
                         streams.getOut().write(b, 0, i);
                         updateProgress(round, rounds);
@@ -207,12 +217,12 @@ public class MainController {
 
                     success = true;
                 } catch (Exception e) {
-                	// Catch any error. Mainly wrong key
+                    // Catch any error. Mainly wrong key
                     success = false;
                 } finally {
                     streams.close();
                 }
-                
+
                 // Return to normal mode
                 MainController.this.running(false);
                 pfPassword.setText("");
@@ -225,7 +235,7 @@ public class MainController {
 
     /**
      * Simmilar to {@link #encryptTask}.<br/>
-     * 
+     *
      * @return success
      */
     private Task<Boolean> decryptTask() {
@@ -234,12 +244,12 @@ public class MainController {
             @Override
             protected Boolean call() throws Exception {
                 Boolean success = false;
-                
+
                 // Generate key and get StreamObject with in and out
                 StreamObject streams = crypter.decrypt(inFile, outFile, crypter.genkey(pfPassword.getText()));
                 try {
 
-                	// Get the amount of loop round 
+                    // Get the amount of loop round
                     long rounds = (streams.getSize() / 1024) * 2;
                     if (rounds < 1) {
                         rounds = 1L;
@@ -247,7 +257,7 @@ public class MainController {
 
                     long round = 0;
 
-                    
+
                     // Copy the streams. Updates the progress property while copying
                     int i;
                     byte[] b = new byte[1024];
@@ -260,12 +270,12 @@ public class MainController {
 
                     success = true;
                 } catch (Exception e) {
-                	// Catch any error. Mainly wrong key
+                    // Catch any error. Mainly wrong key
                     success = false;
                 } finally {
                     streams.close();
                 }
-                
+
                 // Return to normal mode
                 MainController.this.running(false);
                 pfPassword.setText("");
@@ -278,7 +288,7 @@ public class MainController {
 
     /**
      * FileListener<br/>
-     * 
+     * <p>
      * Listens on tfIn's text property. Controls the lblOut and manages the .crypt additions
      */
     private ChangeListener<String> fileListener = new ChangeListener<>() {
@@ -315,7 +325,7 @@ public class MainController {
 
     /**
      * ModeListener<br/>
-     * 
+     * <p>
      * Listens on the choicebox and flips the mode from encryption to decryption or the other way.<br/>
      * Triggers the {@link #fileListener}
      */
@@ -346,7 +356,7 @@ public class MainController {
 
     /**
      * ReadyListener<br/>
-     * 
+     * <p>
      * Listens on ifIn, the password filed and the choicebox.<br/>
      * Checks if every condition is met.<br/>
      * Conditions: The orig file exists and is no directory, the password is at least 4 characters long.<br/>
@@ -381,7 +391,7 @@ public class MainController {
 
     /**
      * PasswordListener<br/>
-     * 
+     * <p>
      * Listens on the checkbox and switches between password and textfield
      */
     private ChangeListener<Boolean> passwordListener = new ChangeListener<Boolean>() {
@@ -403,7 +413,7 @@ public class MainController {
     /**
      * Creates a FileDialog to select a file.<br/>
      * Error handling is provided
-     * 
+     *
      * @param event
      */
     public void btnLookUp(ActionEvent event) {
@@ -424,16 +434,16 @@ public class MainController {
             mapInputsToFiles();
         }
     }
-    
+
     /**
      * Runs {@link #btnRun()} if enter is pressed in the password filed
-     * 
+     *
      * @param event
      */
     public void btnReturn(KeyEvent event) {
-    	if (event.getCode() == KeyCode.ENTER && !btnRun.isDisabled()) {
-    		btnRun();
-    	}
+        if (event.getCode() == KeyCode.ENTER && !btnRun.isDisabled()) {
+            btnRun();
+        }
     }
 
     /**
@@ -449,6 +459,7 @@ public class MainController {
             if (firstFile.exists()) {
                 tfIn.setText(firstFile.getAbsolutePath());
                 mapInputsToFiles();
+                requestFocusOnPasswordFiles();
                 success = true;
             }
         }
@@ -469,7 +480,7 @@ public class MainController {
         mapInputsToFiles();
         showPw.setSelected(false);
         showStatus();
-        
+
         switch (mode) {
             case ENCRYPT:
                 running(true);
@@ -501,49 +512,49 @@ public class MainController {
             }
         }).start();
     }
-    
+
     /**
      * Shows the size labels.
-     * 
+     *
      * @param bool
      */
     private void showSize(boolean bool) {
-    	lblSizeHeader.setManaged(bool);
-    	lblSizeHeader.setVisible(bool);
-    	lblSize.setManaged(bool);
-    	lblSize.setVisible(bool);
-    	if (bool) {
-    		lblSize.setText(getFileSize());
-    	} else {
-    		lblSize.setText("");
-    	}
+        lblSizeHeader.setManaged(bool);
+        lblSizeHeader.setVisible(bool);
+        lblSize.setManaged(bool);
+        lblSize.setVisible(bool);
+        if (bool) {
+            lblSize.setText(getFileSize());
+        } else {
+            lblSize.setText("");
+        }
     }
-    
+
     /**
      * Calculates the displayed file size formats it.
-     * 
+     *
      * @return
      */
     private String getFileSize() {
-    	DecimalFormat df = new DecimalFormat("0.00");
-    	
-    	long bytes = inFile.length();
-    	double kiloBytes = bytes / 1024;
-    	double megaBytes = kiloBytes / 1024;
-    	double gigaBytes = megaBytes / 1024;
-    	
-    	if (gigaBytes > 1) {
-    		return df.format(gigaBytes) + "GB";
-    	} else if (megaBytes > 1) {
-    		return df.format(megaBytes) + "MB";
-    	} else if (kiloBytes > 1) {
-    		return df.format(kiloBytes) + "KB";
-    	} else {
-    		return df.format(bytes) + "Bytes";
-    	}
+        DecimalFormat df = new DecimalFormat("0.00");
+
+        long bytes = inFile.length();
+        double kiloBytes = bytes / 1024;
+        double megaBytes = kiloBytes / 1024;
+        double gigaBytes = megaBytes / 1024;
+
+        if (gigaBytes > 1) {
+            return df.format(gigaBytes) + "GB";
+        } else if (megaBytes > 1) {
+            return df.format(megaBytes) + "MB";
+        } else if (kiloBytes > 1) {
+            return df.format(kiloBytes) + "KB";
+        } else {
+            return df.format(bytes) + "Bytes";
+        }
     }
 
     public void setStage(Stage stage) {
-    	this.stage = stage;
+        this.stage = stage;
     }
 }
