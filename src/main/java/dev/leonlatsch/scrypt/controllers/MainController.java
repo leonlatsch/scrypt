@@ -76,7 +76,7 @@ public class MainController {
     @FXML
     public void initialize() {
     	// Load search.png to button
-        Image img = new Image(MainController.class.getClassLoader().getResourceAsStream("img/search.png"));
+        Image img = new Image(getClass().getResourceAsStream("/img/search.png"));
         btnLookUp.setGraphic(new ImageView(img));
         
         // Add listeners
