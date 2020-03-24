@@ -30,7 +30,9 @@ public class App extends Application {
         launch(args);
 
         boolean success = CREDITS.delete();
-        System.err.println("Error deleting " + CREDITS.getName()); // Should not happen
+        if (!success) {
+            System.err.println("Error deleting " + CREDITS.getName()); // Should not happen
+        }
     }
 
     @Override
