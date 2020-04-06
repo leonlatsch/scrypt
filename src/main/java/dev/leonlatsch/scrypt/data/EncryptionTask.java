@@ -1,7 +1,5 @@
 package dev.leonlatsch.scrypt.data;
 
-import javafx.concurrent.Task;
-
 import javax.crypto.spec.SecretKeySpec;
 import java.io.File;
 
