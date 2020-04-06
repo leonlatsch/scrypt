@@ -1,9 +1,7 @@
 package dev.leonlatsch.scrypt.controllers;
 
 import dev.leonlatsch.scrypt.App;
-import dev.leonlatsch.scrypt.data.Crypter;
-import dev.leonlatsch.scrypt.data.Mode;
-import dev.leonlatsch.scrypt.data.StreamObject;
+import dev.leonlatsch.scrypt.data.*;
 import dev.leonlatsch.scrypt.util.MavenUtils;
 import dev.leonlatsch.scrypt.util.OptionPane;
 import javafx.application.Platform;
@@ -43,7 +41,7 @@ public class MainController {
 
     private Stage stage;
 
-    private Crypter crypter;
+    private EncryptionManager encryptionManager;
 
     private File inFile, outFile;
 
@@ -95,7 +93,7 @@ public class MainController {
         btnRun.setDisable(true);
         lblVersion.setText(MavenUtils.getVersion());
 
-        crypter = new Crypter();
+        encryptionManager = EncryptionManager.getInstance();
     }
 
     /**
@@ -176,111 +174,6 @@ public class MainController {
         } else if (tfPassword.isVisible()) {
             tfPassword.requestFocus();
         }
-    }
-
-    /**
-     * Generates the encrypting {@link Task} object.<br/>
-     * Creates streams and copys them. Relais on correct in and out {@link File}s.<br/>
-     * Use the progress property to get the progress of the encryption<br/>
-     *
-     * @return success
-     */
-    private Task<Boolean> encryptTask() {
-        return new Task<>() {
-
-            @Override
-            protected Boolean call() throws Exception {
-                boolean success;
-
-                // Generate key and get StreamObject with in and out
-                StreamObject streams = crypter.encrypt(inFile, outFile, crypter.keyGen(pfPassword.getText()));
-                try {
-
-                    // Get the amount of loop round
-                    long rounds = streams.getSize() / 1024;
-                    if (rounds < 1) {
-                        rounds = 1L;
-                    }
-
-                    long round = 0;
-
-                    // Copy the streams. Updates the progress property while copying
-                    int i;
-                    byte[] b = new byte[1024];
-
-                    while ((i = streams.getIn().read(b)) != -1) {
-                        streams.getOut().write(b, 0, i);
-                        updateProgress(round, rounds);
-                        round++;
-                    }
-
-                    success = true;
-                } catch (Exception e) {
-                    // Catch any error. Mainly wrong key
-                    success = false;
-                } finally {
-                    streams.close();
-                }
-
-                // Return to normal mode
-                MainController.this.running(false);
-                pfPassword.setText("");
-                showStatus(success);
-                return success;
-            }
-        };
-    }
-
-    /**
-     * Simmilar to {@link #encryptTask}.<br/>
-     *
-     * @return success
-     */
-    private Task<Boolean> decryptTask() {
-        return new Task<>() {
-
-            @Override
-            protected Boolean call() throws Exception {
-                boolean success;
-
-                // Generate key and get StreamObject with in and out
-                StreamObject streams = crypter.decrypt(inFile, outFile, crypter.keyGen(pfPassword.getText()));
-                try {
-
-                    // Get the amount of loop round
-                    long rounds = (streams.getSize() / 1024) * 2;
-                    if (rounds < 1) {
-                        rounds = 1L;
-                    }
-
-                    long round = 0;
-
-
-                    // Copy the streams. Updates the progress property while copying
-                    int i;
-                    byte[] b = new byte[1024];
-
-                    while ((i = streams.getIn().read(b)) != -1) {
-                        streams.getOut().write(b, 0, i);
-                        updateProgress(round, rounds);
-                        round++;
-                    }
-
-                    success = true;
-                } catch (Exception e) {
-                    // Catch any error. Mainly wrong key
-                    success = false;
-                } finally {
-                    streams.close();
-                }
-
-                // Return to normal mode
-                MainController.this.running(false);
-                pfPassword.setText("");
-                showStatus(success);
-                return success;
-            }
-        };
     }
 
     /**
@@ -468,6 +361,12 @@ public class MainController {
         dragEvent.acceptTransferModes(TransferMode.ANY);
     }
 
+    private EncryptionCallback encryptionCallback = success -> {
+        running(false);
+        pfPassword.setText("");
+        showStatus(success);
+    };
+
     /**
      * Starts the execution of the main function.<br/>
      * Generates the tasks, binds properties, and runs the {@link #workingThread} with the task.
@@ -480,7 +379,7 @@ public class MainController {
         switch (mode) {
             case ENCRYPT:
                 running(true);
-                Task<Boolean> encTask = encryptTask();
+                EncryptionTask encTask = new EncryptionTask(inFile, outFile, encryptionManager.keyGen(pfPassword.getText()), encryptionCallback);
                 progress.progressProperty().bind(encTask.progressProperty());
                 workingThread = new Thread(encTask, "Working-Thread");
                 workingThread.start();
@@ -488,7 +387,7 @@ public class MainController {
 
             case DECRYPT:
                 running(true);
-                Task<Boolean> decTask = decryptTask();
+                DecryptionTask decTask = new DecryptionTask(inFile, outFile, encryptionManager.keyGen(pfPassword.getText()), encryptionCallback);
                 progress.progressProperty().bind(decTask.progressProperty());
                 workingThread = new Thread(decTask, "Working-Thread");
                 workingThread.start();

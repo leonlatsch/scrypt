@@ -8,13 +8,13 @@ import java.io.OutputStream;
  * @author Leon Latsch
  * @since 1.0
  */
-public class StreamObject {
+public class StreamContext {
 
 	private final InputStream in;
 	private final OutputStream out;
 	private final long size;
 	
-	public StreamObject(InputStream in, OutputStream out, long sizeToCopy) {
+	public StreamContext(InputStream in, OutputStream out, long sizeToCopy) {
 		this.in = in;
 		this.out = out;
 		this.size = sizeToCopy;
