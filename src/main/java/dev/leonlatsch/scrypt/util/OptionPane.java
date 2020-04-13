@@ -1,12 +1,11 @@
 package dev.leonlatsch.scrypt.util;
 
-import java.util.Optional;
-
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
-import javafx.scene.control.TextInputDialog;
 import javafx.stage.Stage;
+
+import java.util.Optional;
 
 /**
  * @author Leon Latsch
@@ -35,24 +34,6 @@ public class OptionPane {
         alert.initOwner(parent);
 
         alert.showAndWait();
-    }
-
-    public static String showInputDialog(Stage parent, String title, String message, AlertType alertType) {
-        if (title == null) {
-            title = "Please enter";
-        }
-        if (message == null) {
-            message = "";
-        }
-        TextInputDialog dialog = new TextInputDialog();
-        dialog.setTitle(title);
-        dialog.setHeaderText(null);
-        dialog.setContentText(message);
-        dialog.initOwner(parent);
-
-        Optional<String> result = dialog.showAndWait();
-
-        return result.orElse(null);
     }
 
     /**

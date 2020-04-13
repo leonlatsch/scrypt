@@ -7,7 +7,6 @@ import dev.leonlatsch.scrypt.util.OptionPane;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
@@ -84,7 +83,7 @@ public class MainController {
         pfPassword.textProperty().addListener(readyListener);
         showPw.selectedProperty().addListener(passwordListener);
 
-        // Compine text and passwordfield
+        // Combine text and password field
         pfPassword.textProperty().bindBidirectional(tfPassword.textProperty());
 
         // Init mode
@@ -152,9 +151,9 @@ public class MainController {
     }
 
     /**
-     * Dis or enables all gui emelents. Used while encryption
+     * Dis or enables all gui elements. Used while encryption
      *
-     * @param bool true/faöse
+     * @param bool true/false
      */
     private void running(boolean bool) {
         btnRun.setDisable(bool);
@@ -216,7 +215,7 @@ public class MainController {
     /**
      * ModeListener<br/>
      * <p>
-     * Listens on the choicebox and flips the mode from encryption to decryption or the other way.<br/>
+     * Listens on the choice box and flips the mode from encryption to decryption or the other way.<br/>
      * Triggers the {@link #fileListener}
      */
     private ChangeListener<String> modeListener = new ChangeListener<>() {
@@ -376,22 +375,12 @@ public class MainController {
         showPw.setSelected(false);
         showStatus();
 
-        switch (mode) {
-            case ENCRYPT:
-                running(true);
-                EncryptionTask encTask = new EncryptionTask(inFile, outFile, encryptionManager.keyGen(pfPassword.getText()), encryptionCallback);
-                progress.progressProperty().bind(encTask.progressProperty());
-                workingThread = new Thread(encTask, "Working-Thread");
-                workingThread.start();
-                break;
-
-            case DECRYPT:
-                running(true);
-                DecryptionTask decTask = new DecryptionTask(inFile, outFile, encryptionManager.keyGen(pfPassword.getText()), encryptionCallback);
-                progress.progressProperty().bind(decTask.progressProperty());
-                workingThread = new Thread(decTask, "Working-Thread");
-                workingThread.start();
-                break;
+        BaseTask task = getTask();
+        if (task != null) {
+            running(true);
+            progress.progressProperty().bind(task.progressProperty());
+            workingThread = new Thread(task,"WORKING-THREAD");
+            workingThread.start();
         }
     }
 
@@ -433,7 +422,7 @@ public class MainController {
     private String getFileSize() {
         DecimalFormat df = new DecimalFormat("0.00");
 
-        long bytes = inFile.length();
+        double bytes = inFile.length();
         double kiloBytes = bytes / 1024;
         double megaBytes = kiloBytes / 1024;
         double gigaBytes = megaBytes / 1024;
@@ -446,6 +435,17 @@ public class MainController {
             return df.format(kiloBytes) + "KB";
         } else {
             return df.format(bytes) + "Bytes";
+        }
+    }
+
+    private BaseTask getTask() {
+        switch (mode) {
+            case ENCRYPT:
+                return new EncryptionTask(inFile, outFile, encryptionManager.keyGen(pfPassword.getText()), encryptionCallback);
+            case DECRYPT:
+                return new DecryptionTask(inFile, outFile, encryptionManager.keyGen(pfPassword.getText()), encryptionCallback);
+            default:
+                return null;
         }
     }
 

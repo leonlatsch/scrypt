@@ -39,7 +39,6 @@ public class EncryptionManager {
      *
      * @param str the source string
      * @return {@link SecretKeySpec}
-     * @throws Exception if any error happens. Should not.
      */
     public SecretKeySpec keyGen(String str) {
         try {

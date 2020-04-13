@@ -5,5 +5,5 @@ package dev.leonlatsch.scrypt.data;
  * @since 1.0
  */
 public enum Mode {
-	ENCRYPT, DECRYPT;
+	ENCRYPT, DECRYPT
 }

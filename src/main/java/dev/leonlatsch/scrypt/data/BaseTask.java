@@ -11,6 +11,8 @@ import java.io.File;
  */
 public abstract class BaseTask extends Task<Void> {
 
+    private static final int BUFFER_SIZE = 1024;
+
     private File in, out;
     private SecretKeySpec key;
     private EncryptionManager encryptionManager;
@@ -31,7 +33,7 @@ public abstract class BaseTask extends Task<Void> {
     protected Void call() {
         boolean success;
 
-        // Generate key and get StreamObject with in and out
+        // Get StreamObject with in and out
         StreamContext streams = getStreamContext();
         if (streams == null) {
             getCallback().onEncryptionFinished(false);
@@ -39,23 +41,21 @@ public abstract class BaseTask extends Task<Void> {
         }
 
         try {
-            // Get the amount of loop rounds
-            long rounds = (streams.getSize() / 1024) * 2;
-            if (rounds < 1) {
-                rounds = 1L;
+            // Calc the amount of loop rounds
+            long run = 0;
+            long runs = (streams.getSize() / BUFFER_SIZE) * 2;
+            if (runs < 1) {
+                runs = 1L;
             }
-
-            long round = 0;
-
 
             // Copy the streams. Updates the progress property while copying
             int i;
-            byte[] b = new byte[1024];
+            byte[] b = new byte[BUFFER_SIZE];
 
             while ((i = streams.getIn().read(b)) != -1) {
                 streams.getOut().write(b, 0, i);
-                updateProgress(round, rounds);
-                round++;
+                updateProgress(run, runs);
+                run++;
             }
 
             success = true;
