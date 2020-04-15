@@ -33,7 +33,7 @@ Download the latest jar from Releases.
 #### Requirements
 
 - *Java 11
-- JavaFX (not required since version 2.0)
+- JavaFX (gets deployed with scrypt since version 2.0)
 
 ----
 
