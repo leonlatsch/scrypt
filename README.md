@@ -5,8 +5,6 @@
 ![GitHub All Releases](https://img.shields.io/github/downloads/leonlatsch/scrypt/total)
 ![Maintenance](https://img.shields.io/maintenance/yes/2020)
 
-> Note: This was my first "big" project and i created it quite a while ago.
-
 ![scrypt](https://i.imgur.com/aMoB6z6.png)
 
 ### General
@@ -25,15 +23,15 @@
 
 ### Setup
 
-Download the latest jar from Releases.
+Download the latest jar from [Releases](https://github.com/leonlatsch/scrypt/releases).
 
 ----
 
 
 #### Requirements
 
-- *Java 11
-- JavaFX (not required since version 2.0)
+- Java 11
+- JavaFX (optional, gets deployed with scrypt since version 2.0)
 
 ----
 
