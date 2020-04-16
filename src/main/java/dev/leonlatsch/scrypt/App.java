@@ -1,19 +1,16 @@
 package dev.leonlatsch.scrypt;
 
+import dev.leonlatsch.scrypt.controllers.MainController;
+import dev.leonlatsch.scrypt.util.InfoCreator;
+import dev.leonlatsch.scrypt.util.OptionPane;
+import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Alert.AlertType;
+import javafx.stage.Stage;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-
-import dev.leonlatsch.scrypt.controllers.MainController;
-import dev.leonlatsch.scrypt.util.OptionPane;
-import dev.leonlatsch.scrypt.util.InfoCreator;
-import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.Alert.AlertType;
-import javafx.scene.image.Image;
-import javafx.stage.Stage;
 
 public class App extends Application {
 
@@ -38,15 +35,9 @@ public class App extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/layout/Main.fxml"));
-        Parent root = loader.load();
-        MainController controller = loader.getController();
-        controller.setStage(primaryStage);
-        Scene scene = new Scene(root, 430, 300);
-        primaryStage.setScene(scene);
-        primaryStage.setTitle("SCrypt");
-        primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("/img/logo_256.png")));
-        primaryStage.setResizable(false);
-        primaryStage.show();
+        Stage stage = loader.load();
+        ((MainController) loader.getController()).setStage(stage);
+        stage.show();
     }
 
 }
